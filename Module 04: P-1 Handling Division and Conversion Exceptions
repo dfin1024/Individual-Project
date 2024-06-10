@@ -1,0 +1,44 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Enter a numerator:");
+        string numeratorString = Console.ReadLine();
+
+        Console.WriteLine("Enter a denominator:");
+        string denominatorString = Console.ReadLine();
+
+        try
+        {
+            int numerator = Convert.ToInt32(numeratorString);
+            int denominator = Convert.ToInt32(denominatorString);
+
+            // Handle potential OverflowException for very large numbers
+            if (Math.Abs(numerator) * Math.Abs(denominator) > int.MaxValue)
+            {
+                throw new OverflowException("The product of numerator and denominator exceeds the maximum value for an integer.");
+            }
+
+            double result = (double)numerator / denominator; // Use double for potentially non-integer results
+            Console.WriteLine($"The result of the division is: {result}");
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine("Error: Invalid input format. Please enter whole numbers only.");
+        }
+        catch (DivideByZeroException ex)
+        {
+            Console.WriteLine("Error: Division by zero is not allowed.");
+        }
+        catch (OverflowException ex)
+        {
+            Console.WriteLine("Error: The result of the division exceeds the maximum value for an integer.");
+        }
+        catch (Exception ex) // Catch any other unexpected exceptions
+        {
+            Console.WriteLine("An unexpected error occurred: {0}", ex.Message);
+        }
+    }
+}
